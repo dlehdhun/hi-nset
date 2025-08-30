@@ -6,14 +6,13 @@ import {
   Param,
   Patch,
   Post,
-  Query,
 } from '@nestjs/common';
 import { MoviesService } from './movies.service';
 import { Movie } from './entites/movie.entity';
 
 @Controller('movies')
 export class MoviesController {
-  constructor(private readonly MoviesService: MoviesService) {}
+  constructor(private readonly MoviesService: MoviesService) { }
 
   @Get()
   getAll(): Movie[] {
@@ -21,7 +20,7 @@ export class MoviesController {
   }
 
   @Get('/:id')
-  getOne(@Param('id') movieId: string): Movie | undefined {
+  getOne(@Param('id') movieId: string): Movie {
     return this.MoviesService.getOne(movieId);
   }
 
@@ -37,6 +36,6 @@ export class MoviesController {
 
   @Patch('/:id')
   patch(@Param('id') movieId: string, @Body() updateData) {
-    return { updateMovie: movieId, ...updateData };
+    return this.MoviesService.update(movieId, updateData)
   }
 }
