@@ -21,7 +21,7 @@ export class MoviesService {
     });
   }
 
-  deleteOne(id: number): Promise<movies> {
+  async deleteOne(id: number): Promise<movies> {
     return this.prismaService.movies.delete({
       where: { id },
     });

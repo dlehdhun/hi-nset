@@ -14,31 +14,33 @@ import { UpdateMovieDto } from './dto/update-movie.dto';
 
 @Controller('movies')
 export class MoviesController {
-  constructor(private readonly MoviesService: MoviesService) { }
+  constructor(private readonly MoviesService: MoviesService) {}
 
   @Get()
-  getAll(): Movie[] {
+  async getAll(): Promise<Movie[]> {
     return this.MoviesService.getAll();
   }
 
   @Get('/:id')
-  getOne(@Param('id') movieId: number): Movie {
+  async getOne(@Param('id') movieId: number): Promise<Movie> {
     return this.MoviesService.getOne(movieId);
   }
 
   @Post()
-  create(@Body() movieData: CreateMovieDto) {
-
+  async create(@Body() movieData: CreateMovieDto) {
     return this.MoviesService.create(movieData);
   }
 
   @Delete('/:id')
-  remove(@Param('id') movieId: number) {
+  async remove(@Param('id') movieId: number) {
     return this.MoviesService.deleteOne(movieId);
   }
 
   @Patch('/:id')
-  patch(@Param('id') movieId: number, @Body() updateData: UpdateMovieDto) {
-    return this.MoviesService.update(movieId, updateData)
+  async patch(
+    @Param('id') movieId: number,
+    @Body() updateData: UpdateMovieDto,
+  ) {
+    return this.MoviesService.update(movieId, updateData);
   }
 }
