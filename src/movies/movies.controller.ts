@@ -3,12 +3,13 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
+  HttpStatus,
   Param,
   Patch,
   Post,
 } from '@nestjs/common';
 import { MoviesService } from './movies.service';
-import { Movie } from './entites/movie.entity';
 import { CreateMovieDto } from './dto/create-movie.dto';
 import { UpdateMovieDto } from './dto/update-movie.dto';
 
@@ -17,23 +18,40 @@ export class MoviesController {
   constructor(private readonly MoviesService: MoviesService) {}
 
   @Get()
-  async getAll(): Promise<Movie[]> {
-    return this.MoviesService.getAll();
+  async getAll() {
+    const movieList = await this.MoviesService.getAll();
+    return {
+      message: '영화 다 가져오기',
+      statusCode: '200',
+      data: movieList,
+    };
   }
 
   @Get('/:id')
-  async getOne(@Param('id') movieId: number): Promise<Movie> {
-    return this.MoviesService.getOne(movieId);
+  async getOne(@Param('id') movieId: number) {
+    const movies = await this.MoviesService.getOne(movieId);
+
+    return {
+      message: '영화 하나 가져오기',
+      statusCode: '200',
+      data: movies,
+    };
   }
 
   @Post()
   async create(@Body() movieData: CreateMovieDto) {
-    return this.MoviesService.create(movieData);
+    const createmoive = await this.MoviesService.create(movieData);
+    return {
+      message: '영화 추가 성공',
+      statusCode: '201',
+      data: createmoive,
+    };
   }
 
   @Delete('/:id')
+  @HttpCode(HttpStatus.NO_CONTENT)
   async remove(@Param('id') movieId: number) {
-    return this.MoviesService.deleteOne(movieId);
+    await this.MoviesService.deleteOne(movieId);
   }
 
   @Patch('/:id')
