@@ -59,6 +59,11 @@ export class MoviesController {
     @Param('id') movieId: number,
     @Body() updateData: UpdateMovieDto,
   ) {
-    return this.MoviesService.update(movieId, updateData);
+    const patchmoive = await this.MoviesService.update(movieId, updateData);
+    return {
+      message: '영화 변경 성공',
+      statusCode: '200',
+      data: patchmoive,
+    };
   }
 }
