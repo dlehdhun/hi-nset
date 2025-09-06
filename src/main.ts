@@ -18,6 +18,9 @@ async function bootstrap() {
     .setDescription('영화 API입니다.')
     .setVersion('1.0')
     .addTag('movie', '영화 관련')
+    .addBearerAuth()
+    .setTermsOfService('https://github.com/dlehdhun/hi-nset')
+    .addServer('http://localhost:3000/', 'develop')
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, documentFactory);
